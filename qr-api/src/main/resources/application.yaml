@@ -1,0 +1,14 @@
+server:
+  port: 9090
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:32774/qrdb
+    username: user
+    password: password
+  jpa:
+    generate-ddl: true
+
+values:
+  max-size-qr: 1200
+  min-size-qr: 100

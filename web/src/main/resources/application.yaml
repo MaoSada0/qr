@@ -1,0 +1,6 @@
+server:
+  port: 9091
+
+qr:
+  api:
+    url: http://localhost:9090/qq/api/get-qr-another

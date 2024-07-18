@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>QR Code</title>
+</head>
+<body>
+<h1>Generated QR Code</h1>
+<p>Text: <span th:text="${text}"></span></p>
+<img th:src="'data:image/png;base64,' + ${image}" alt="QR Code" />
+</body>
+</html>

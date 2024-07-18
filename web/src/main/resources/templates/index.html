@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>QR Code Generator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css">
+</head>
+<body>
+<section class="section">
+    <div class="container">
+        <h1 class="title">QR Code Generator</h1>
+        <form th:action="@{/qq/generateQR}" method="post">
+            <div class="field">
+                <label class="label">Enter Text</label>
+                <div class="control">
+                    <input class="input" type="text" name="text" placeholder="Enter text for QR code" required>
+                </div>
+                <div class="control">
+                    <input class="input" type="number" name="size" placeholder="Enter size of QR code" min="100" max="1200" required>
+                </div>
+            </div>
+            <div class="field">
+                <div class="control">
+                    <button class="button is-primary" type="submit">Generate QR Code</button>
+                </div>
+            </div>
+        </form>
+        <div class="field">
+            <label class="label">QR Code:</label>
+            <div class="control">
+                <img th:if="${qrCodeUrl}" th:src="@{${qrCodeUrl}}" alt="QR Code">
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>
+
