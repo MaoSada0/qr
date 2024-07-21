@@ -1,4 +1,4 @@
-package ru.qq.model.entity;
+package ru.qq.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -25,6 +25,5 @@ public class QRCode {
     private Short size;
 
     @OneToOne
-    @JsonIgnore
     private BinaryContent qrBinaryContent;
 }

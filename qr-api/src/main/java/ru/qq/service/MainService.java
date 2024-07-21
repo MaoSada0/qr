@@ -1,6 +1,6 @@
 package ru.qq.service;
 
-import ru.qq.model.entity.QRCode;
+import ru.qq.entity.QRCode;
 
 import java.util.List;
 

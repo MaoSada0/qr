@@ -1,6 +1,6 @@
 package ru.qq.service;
 
-import ru.qq.model.entity.QRCode;
+import ru.qq.entity.QRCode;
 
 public interface QRCodeGeneratorService {
 

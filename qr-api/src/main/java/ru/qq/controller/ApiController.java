@@ -7,15 +7,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.qq.model.entity.QRCode;
+import ru.qq.entity.QRCode;
 import ru.qq.service.MainService;
 import ru.qq.service.QRCodeGeneratorService;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.net.URL;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;

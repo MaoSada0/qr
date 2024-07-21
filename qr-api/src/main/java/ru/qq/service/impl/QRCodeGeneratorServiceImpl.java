@@ -9,9 +9,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.qq.dao.BinaryContentDAO;
-import ru.qq.model.dao.QRCodeDAO;
+import ru.qq.repository.QRCodeRepository;
 import ru.qq.entity.BinaryContent;
-import ru.qq.model.entity.QRCode;
+import ru.qq.entity.QRCode;
 import ru.qq.service.QRCodeGeneratorService;
 
 import javax.imageio.ImageIO;
@@ -23,7 +23,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class QRCodeGeneratorServiceImpl implements QRCodeGeneratorService {
 
-    private final QRCodeDAO qrCodeDAO;
+    private final QRCodeRepository qrCodeRepository;
     private final BinaryContentDAO binaryContentDAO;
 
 
@@ -60,7 +60,7 @@ public class QRCodeGeneratorServiceImpl implements QRCodeGeneratorService {
         var binaryContent = getBinaryContent(bitMatrix);
         qrCodeData.setQrBinaryContent(binaryContent);
 
-        return qrCodeDAO.save(qrCodeData)
+        return qrCodeRepository.save(qrCodeData)
                 .getQrBinaryContent()
                 .getFileAsArrayOfBytes();
     }
