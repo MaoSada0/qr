@@ -1,10 +1,4 @@
 server:
   port: 9090
 
-spring:
-  datasource:
-    url: jdbc:postgresql://localhost:32768/qrdb
-    username: user
-    password: password
-  jpa:
-    generate-ddl: true
+

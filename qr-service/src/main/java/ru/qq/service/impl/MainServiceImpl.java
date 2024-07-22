@@ -4,24 +4,28 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import ru.qq.repository.BinaryContentRepository;
 import ru.qq.entity.BinaryContent;
 import ru.qq.entity.QRCode;
 import ru.qq.payload.QRCodeGetPayload;
 import ru.qq.repository.QRCodeRepository;
 import ru.qq.service.MainService;
 
-import java.util.NoSuchElementException;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 @RequiredArgsConstructor
 @Service
 public class MainServiceImpl implements MainService {
 
     private final QRCodeRepository qrCodeRepository;
+    private final BinaryContentRepository binaryContentRepository;
 
     @Autowired
     private final RestTemplate restTemplate;
@@ -40,6 +44,8 @@ public class MainServiceImpl implements MainService {
                 .fileAsArrayOfBytes(qrCodeBytes)
                 .build();
 
+        binaryContentRepository.save(binaryContent);
+
         QRCode qrCode = QRCode.builder()
                 .data(qrCodeGetPayload.data())
                 .size(qrCodeGetPayload.size())
@@ -57,5 +63,32 @@ public class MainServiceImpl implements MainService {
     @Override
     public void deleteQRCodeById(Long id) {
         qrCodeRepository.deleteById(id);
+    }
+
+    @Override
+    public List<QRCode> getAllQRCode() {
+        return qrCodeRepository.findAll();
+    }
+
+    @Override
+    public ByteArrayResource getZipAllQr() {
+        List<byte[]> images = this.getAllQRCode()
+                .stream()
+                .map(q -> q.getQrBinaryContent().getFileAsArrayOfBytes())
+                .toList();
+
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        try (ZipOutputStream zipOutputStream = new ZipOutputStream(byteArrayOutputStream)) {
+            for (int i = 0; i < images.size(); i++) {
+                ZipEntry zipEntry = new ZipEntry("image, id: " + (i + 1) + ".png");
+                zipOutputStream.putNextEntry(zipEntry);
+                zipOutputStream.write(images.get(i));
+                zipOutputStream.closeEntry();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return new ByteArrayResource(byteArrayOutputStream.toByteArray());
     }
 }

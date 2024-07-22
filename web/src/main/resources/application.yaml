@@ -3,4 +3,5 @@ server:
 
 qr:
   api:
-    url: http://localhost:9090/api/generate-qr/param
+    url:
+      new: http://localhost:9092/api/qr-service/new

@@ -25,7 +25,5 @@ public class QRCode {
     @OneToOne
     private BinaryContent qrBinaryContent;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+
 }

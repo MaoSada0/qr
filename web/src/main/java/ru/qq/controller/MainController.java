@@ -30,8 +30,8 @@ public class MainController {
 
     @PostMapping("generateQR")
     public String generateQR(@RequestParam(value = "text", required = true) String text, @RequestParam(value = "size", required = true) Short size, Model model) {
-        String qrCodeUrl = "/qq/qr?text=" + text + "&size=" + size;
-        model.addAttribute("qrCodeUrl", qrCodeUrl);
+        String qrCodeUri = "/qq/qr?text=" + text + "&size=" + size;
+        model.addAttribute("qrCodeUrl", qrCodeUri);
         return "index";
     }
 
