@@ -9,9 +9,10 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
-        <module>qr-api</module>
+        <module>qr-generator</module>
         <module>common-jpa</module>
         <module>web</module>
+        <module>qr-service</module>
     </modules>
 
     <properties>

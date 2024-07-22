@@ -3,4 +3,4 @@ server:
 
 qr:
   api:
-    url: http://localhost:9090/qq/api/get-qr-another
+    url: http://localhost:9090/api/generate-qr/param

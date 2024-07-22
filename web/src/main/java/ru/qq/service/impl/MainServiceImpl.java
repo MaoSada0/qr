@@ -7,9 +7,11 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import ru.qq.service.MainService;
 
+@Service
 public class MainServiceImpl implements MainService {
 
     @Value("${qr.api.url}")
@@ -20,9 +22,9 @@ public class MainServiceImpl implements MainService {
 
     @Override
     public ResponseEntity<Resource> getResponseFromApi(String text, Short size) {
-        String apiUrl = qrApiUrl + "?text=" + text + "&size=" + size;
+        String apiUri = qrApiUrl + "?text=" + text + "&size=" + size;
 
-        ResponseEntity<byte[]> response = restTemplate.getForEntity(apiUrl, byte[].class);
+        ResponseEntity<byte[]> response = restTemplate.getForEntity(apiUri, byte[].class);
         byte[] qrCodeBytes;
         if (response.getStatusCode() == HttpStatus.OK) {
             qrCodeBytes = response.getBody();

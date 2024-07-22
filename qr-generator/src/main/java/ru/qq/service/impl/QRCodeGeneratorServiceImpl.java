@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.qq.dao.BinaryContentDAO;
+import ru.qq.payload.QRCodeGetPayload;
 import ru.qq.repository.QRCodeRepository;
 import ru.qq.entity.BinaryContent;
 import ru.qq.entity.QRCode;
@@ -26,27 +27,16 @@ public class QRCodeGeneratorServiceImpl implements QRCodeGeneratorService {
     private final QRCodeRepository qrCodeRepository;
     private final BinaryContentDAO binaryContentDAO;
 
-
-    @Value("${values.max-size-qr}")
-    private Short MAX_SIZE;
-
-    @Value("${values.min-size-qr}")
-    private Short MIN_SIZE;
-
     @Override
-    public byte[] generateQrImage(QRCode qrCodeData){
+    public byte[] generateQrImage(QRCodeGetPayload qrCodeGetPayload){
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
 
         BitMatrix bitMatrix;
 
-        Short size = qrCodeData.getSize();
-
-        if(size > MAX_SIZE || size < MIN_SIZE){
-            size = 400;
-        }
+        Short size = qrCodeGetPayload.size();
 
         try {
-            bitMatrix = qrCodeWriter.encode(qrCodeData.getData(),
+            bitMatrix = qrCodeWriter.encode(qrCodeGetPayload.data(),
                     BarcodeFormat.QR_CODE,
                     size,
                     size);
@@ -55,12 +45,15 @@ public class QRCodeGeneratorServiceImpl implements QRCodeGeneratorService {
         }
 
 
-
-
         var binaryContent = getBinaryContent(bitMatrix);
-        qrCodeData.setQrBinaryContent(binaryContent);
 
-        return qrCodeRepository.save(qrCodeData)
+        QRCode qrCode = QRCode.builder()
+                .qrBinaryContent(binaryContent)
+                .size(size)
+                .data(qrCodeGetPayload.data())
+                .build();
+
+        return qrCodeRepository.save(qrCode)
                 .getQrBinaryContent()
                 .getFileAsArrayOfBytes();
     }

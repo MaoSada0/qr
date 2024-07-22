@@ -3,12 +3,14 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/common-jpa/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/common-jpa/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/qr-api/qr-generator/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/qr-api/qr-generator/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/qr-api/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/qr-api/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/qr-generator/qr-generator/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/qr-generator/qr-generator/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/qr-generator/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/qr-generator/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/qr-generator/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/qr-generator/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/qr-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/qr-service/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/ru/qr-generator/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/ru/qr-generator/src/main/resources" charset="UTF-8" />
