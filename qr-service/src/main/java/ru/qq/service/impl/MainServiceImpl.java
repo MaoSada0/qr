@@ -7,6 +7,7 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import ru.qq.client.QRCodeGeneratorRestClient;
 import ru.qq.repository.BinaryContentRepository;
 import ru.qq.entity.BinaryContent;
 import ru.qq.entity.QRCode;
@@ -17,6 +18,7 @@ import ru.qq.service.MainService;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -28,17 +30,18 @@ public class MainServiceImpl implements MainService {
     private final BinaryContentRepository binaryContentRepository;
 
     @Autowired
+    private final QRCodeGeneratorRestClient qrCodeGeneratorRestClient;
+
+    @Autowired
     private final RestTemplate restTemplate;
 
-    @Value("${qr.api.url}")
-    private String qrApiUrl;
+    @Value("${qr.api.uri}")
+    private String qrApiUri;
 
     @Override
     public QRCode saveQRCode(QRCodeGetPayload qrCodeGetPayload) {
-        String apiUrl = qrApiUrl + "?text=" + qrCodeGetPayload.data() + "&size=" + qrCodeGetPayload.size();
 
-        ResponseEntity<byte[]> response = restTemplate.getForEntity(apiUrl, byte[].class);
-        byte[] qrCodeBytes = response.getBody(); // TODO: обработать ошибки
+        byte[] qrCodeBytes = qrCodeGeneratorRestClient.generateQRCode(qrCodeGetPayload).orElseThrow();
 
         BinaryContent binaryContent = BinaryContent.builder()
                 .fileAsArrayOfBytes(qrCodeBytes)
@@ -57,11 +60,13 @@ public class MainServiceImpl implements MainService {
 
     @Override
     public QRCode getQRCodeById(Long id) {
-        return qrCodeRepository.findById(id).orElseThrow();
+        return qrCodeRepository.findById(id).orElseThrow(NoSuchElementException::new);
     }
 
     @Override
     public void deleteQRCodeById(Long id) {
+        if(!qrCodeRepository.existsById(id)) throw new NoSuchElementException();
+
         qrCodeRepository.deleteById(id);
     }
 

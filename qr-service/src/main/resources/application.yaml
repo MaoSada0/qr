@@ -11,4 +11,4 @@ spring:
 
 qr:
   api:
-    url: http://localhost:9090/api/generate-qr/param
+    uri: http://localhost:9090/api/generate-qr/param

@@ -8,26 +8,32 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import ru.qq.client.QRCodeServRestClient;
+import ru.qq.payload.QRCodeGetPayload;
 import ru.qq.service.MainService;
 
 @Service
 @RequiredArgsConstructor
 public class MainServiceImpl implements MainService {
 
-    @Value("${qr.api.url.new}")
-    private String qrApiUrlNew;
+    @Value("${qr.api.uri}")
+    private String qrApiUrl;
+
+    @Autowired
+    private final QRCodeServRestClient qrCodeServRestClient;
 
     @Autowired
     private final RestTemplate restTemplate;
 
     @Override
-    public ResponseEntity<Resource> getResponseFromApi(String text, Short size) {
-        HttpHeaders tempHeaders = new HttpHeaders();
-        tempHeaders.set("Content-Type", "application/x-www-form-urlencoded");
-
-        HttpEntity<String> entity = new HttpEntity<>("text=" + text + "&size=" + size, tempHeaders);
-        ResponseEntity<byte[]> response = restTemplate.exchange(qrApiUrlNew, HttpMethod.POST, entity, byte[].class);
-        byte[] qrCodeBytes =response.getBody();
+    public ResponseEntity<Resource> getResponseFromApi(QRCodeGetPayload qrCodeGetPayload) {
+//        HttpHeaders tempHeaders = new HttpHeaders();
+//        tempHeaders.set("Content-Type", "application/x-www-form-urlencoded");
+//
+//        HttpEntity<String> entity = new HttpEntity<>("text=" + text + "&size=" + size, tempHeaders);
+//
+//        ResponseEntity<byte[]> response = restTemplate.exchange(qrApiUrlNew, HttpMethod.POST, entity, byte[].class);
+        byte[] qrCodeBytes = qrCodeServRestClient.createQRCode(qrCodeGetPayload);
 
         ByteArrayResource byteArrayResource = new ByteArrayResource(qrCodeBytes);
         HttpHeaders headers = new HttpHeaders();

@@ -1,12 +1,13 @@
 package ru.qq.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
+import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import ru.qq.entity.QRCode;
 import ru.qq.payload.QRCodeGetPayload;
@@ -25,15 +26,21 @@ public class QRCodesController {
     private final HttpHeaders httpHeadersPng;
 
     @PostMapping("new")
-    public ResponseEntity<byte[]> saveQr(@RequestParam(value = "text", required = true) String text,
-                                         @RequestParam(value = "size", required = false) Short size){
+    public ResponseEntity<byte[]> saveQr(@Valid @RequestBody QRCodeGetPayload qrCodeGetPayload,
+                                    BindingResult bindingResult) throws BindException{
+        if(bindingResult.hasErrors()){
 
-        byte[] qrBytes = mainService.saveQRCode(new QRCodeGetPayload(text, size))
-                .getQrBinaryContent()
-                .getFileAsArrayOfBytes();
+            if(bindingResult instanceof BindException bindException) throw bindException;
+            else throw new BindException(bindingResult);
+        }
+        else {
 
+            byte[] qrBytes = mainService.saveQRCode(qrCodeGetPayload)
+                    .getQrBinaryContent()
+                    .getFileAsArrayOfBytes();
 
-        return new ResponseEntity<>(qrBytes, httpHeadersPng, HttpStatus.OK);
+            return new ResponseEntity<>(qrBytes, httpHeadersPng, HttpStatus.OK);
+        }
     }
 
     @GetMapping("all/data")

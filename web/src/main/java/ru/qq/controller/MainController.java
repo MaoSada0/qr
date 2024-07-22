@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import ru.qq.payload.QRCodeGetPayload;
 import ru.qq.service.MainService;
 
 import java.util.Base64;
@@ -37,7 +38,7 @@ public class MainController {
 
     @GetMapping("/qr")
     public ResponseEntity<Resource> getQRCode(@RequestParam(value = "text", required = true) String text, @RequestParam(value = "size", required = true) Short size) {
-        return mainService.getResponseFromApi(text, size);
+        return mainService.getResponseFromApi(new QRCodeGetPayload(text, size));
     }
 /*
     @GetMapping("/show-qr")
