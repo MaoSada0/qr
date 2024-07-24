@@ -8,6 +8,17 @@ spring:
     password: password
   jpa:
     generate-ddl: true
+  security:
+    user:
+      name: qq_user
+      password: password
+      roles:
+        - SERVICE
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:32770/realms/qq
+
 
 qr:
   api:

@@ -1,5 +1,6 @@
 package ru.qq.service.impl;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,6 +40,7 @@ public class MainServiceImpl implements MainService {
     private String qrApiUri;
 
     @Override
+    //@Transactional
     public QRCode saveQRCode(QRCodeGetPayload qrCodeGetPayload) {
 
         byte[] qrCodeBytes = qrCodeGeneratorRestClient.generateQRCode(qrCodeGetPayload).orElseThrow();
@@ -59,11 +61,13 @@ public class MainServiceImpl implements MainService {
     }
 
     @Override
+    //@Transactional
     public QRCode getQRCodeById(Long id) {
         return qrCodeRepository.findById(id).orElseThrow(NoSuchElementException::new);
     }
 
     @Override
+    //@Transactional
     public void deleteQRCodeById(Long id) {
         if(!qrCodeRepository.existsById(id)) throw new NoSuchElementException();
 
@@ -71,6 +75,7 @@ public class MainServiceImpl implements MainService {
     }
 
     @Override
+    //@Transactional
     public List<QRCode> getAllQRCode() {
         return qrCodeRepository.findAll();
     }

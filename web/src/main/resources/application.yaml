@@ -1,6 +1,37 @@
 server:
   port: 9091
 
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:32768/qrdb
+    username: user
+    password: password
+  jpa:
+    generate-ddl: true
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:32770/realms/qq
+            user-name-attribute: preferred_username
+        registration:
+          keycloak:
+            client-id: web
+            client-secret: RrU6kpFoyda8nrfU5MZHyUX5fpUIZPzx
+            scope:
+              - openid
+              - view_data
+              - edit_data
+              - microprofile-jwt
+
+
+
 qr:
   api:
     uri: http://localhost:9092/api/qr-service
+    security:
+      password: password
+      username: qq_user
+      registration-id: keycloak

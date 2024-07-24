@@ -24,7 +24,7 @@ public class MainController {
 
     private final MainService mainService;
 
-    @GetMapping
+    @GetMapping("generateQR")
     public String mainPage(){
         return "index";
     }
